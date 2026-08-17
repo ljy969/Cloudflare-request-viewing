@@ -1033,21 +1033,3 @@ Browser / OS / deployment method / Worker status / error screenshot / account ty
 
 ---
 
-## 18. Recent Updates
-
-This section records recent code and documentation maintenance — mainly code-quality, deduplication, and documentation-accuracy improvements. It does not change the data model or existing storage structure:
-
-- **Documentation fix**: `usage_records` only creates the `accountId` and `date` indexes; the previously documented (non-existent) compound index `[accountId,date]` has been corrected.
-- **Dead code cleanup**: Removed the never-called `DB.getUsageRecordCount()`, `DB.deleteSetting()`, and `App.escapeHtml()`.
-- **Deduplication**: `formatBytes` now consistently reuses `CF_API.formatBytes`; the duplicate `App.escapeHtml` implementation was removed (`AccountManager.escapeHtml` is kept).
-- **More precise query window**: The lower bound of `DB.getUsageRecords(days)` was changed from `today - days` to `today - days + 1`, so "last N days" now precisely covers N days including today, matching the fetch window.
-- **Locale-aware number formatting**: `CF_API.formatNumber` now selects the `zh-CN` / `en-US` locale based on the current UI language, updating number formatting when the language is switched.
-
-## 19. Code Fixes
-
-- Fixed `js/db.js`: `deleteAccount` and `setActiveAccount` functions were modified to avoid premature transaction commits by moving reads outside transactions.
-- Fixed `js/charts.js`: Trend chart tooltips incorrectly used `formatBytes` for request and worker counts; changed to use `formatNumber`.
-
----
-
-> 🇨🇳 **想要中文版？** Open [README.md](./README.md) for the full Chinese documentation.
