@@ -7,37 +7,37 @@
 
 ## 目录
 
-- [一、项目简介](#一项目简介)
-- [二、功能特性](#二功能特性)
-- [三、技术栈](#三技术栈)
-- [四、项目结构](#四项目结构)
-- [五、工作原理](#五工作原理)
-- [六、快速开始（5 步上手）](#六快速开始5-步上手)
-  - [第 1 步：获取 Cloudflare Account ID](#第-1-步获取-cloudflare-account-id)
-  - [第 2 步：创建 Cloudflare API Token](#第-2-步创建-cloudflare-api-token)
-  - [第 3 步：部署 Worker 代理（解决跨域）](#第-3-步部署-worker-代理解决跨域)
-  - [第 4 步：在应用中添加账户](#第-4-步在应用中添加账户)
-  - [第 5 步：获取使用数据](#第-5-步获取使用数据)
-- [七、本地运行](#七本地运行)
-- [八、部署指南](#八部署指南)
-  - [8.1 部署 Pages 前端](#81-部署-pages-前端)
-  - [8.2 部署 Worker API 代理](#82-部署-worker-api-代理)
-  - [8.3 自定义域名](#83-自定义域名)
-- [九、使用教程（详细步骤）](#九使用教程详细步骤)
-  - [9.1 仪表盘](#91-仪表盘)
-  - [9.2 账户管理](#92-账户管理)
-  - [9.3 多账户对比](#93-多账户对比)
-  - [9.4 数据管理](#94-数据管理)
-  - [9.5 设置](#95-设置)
-  - [9.6 界面语言与主题切换](#96-界面语言与主题切换)
-- [十、数据采集详解](#十数据采集详解)
-- [十一、数据存储方案](#十一数据存储方案)
-- [十二、API 认证说明](#十二api-认证说明)
-- [十三、配置项详解](#十三配置项详解)
-- [十四、常见问题（FAQ）](#十四常见问题faq)
-- [十五、开发指南](#十五开发指南)
-- [十六、许可证](#十六许可证)
-- [十七、技术支持](#十七技术支持)
+- [一、项目简介](#user-content一项目简介)
+- [二、功能特性](#user-content二功能特性)
+- [三、技术栈](#user-content三技术栈)
+- [四、项目结构](#user-content四项目结构)
+- [五、工作原理](#user-content五工作原理)
+- [六、快速开始（5 步上手）](#user-content六快速开始5-步上手)
+  - [第 1 步：获取 Cloudflare Account ID](#user-content第-1-步获取-cloudflare-account-id)
+  - [第 2 步：创建 Cloudflare API Token](#user-content第-2-步创建-cloudflare-api-token)
+  - [第 3 步：部署 Worker 代理（解决跨域）](#user-content第-3-步部署-worker-代理解决跨域)
+  - [第 4 步：在应用中添加账户](#user-content第-4-步在应用中添加账户)
+  - [第 5 步：获取使用数据](#user-content第-5-步获取使用数据)
+- [七、本地运行](#user-content七本地运行)
+- [八、部署指南](#user-content八部署指南)
+  - [8.1 部署 Pages 前端](#user-content-81-部署-pages-前端)
+  - [8.2 部署 Worker API 代理](#user-content-82-部署-worker-api-代理)
+  - [8.3 自定义域名](#user-content-83-自定义域名)
+- [九、使用教程（详细步骤）](#user-content九使用教程详细步骤)
+  - [9.1 仪表盘](#user-content-91-仪表盘)
+  - [9.2 账户管理](#user-content-92-账户管理)
+  - [9.3 多账户对比](#user-content-93-多账户对比)
+  - [9.4 数据管理](#user-content-94-数据管理)
+  - [9.5 设置](#user-content-95-设置)
+  - [9.6 界面语言与主题切换](#user-content-96-界面语言与主题切换)
+- [十、数据采集详解](#user-content十数据采集详解)
+- [十一、数据存储方案](#user-content十一数据存储方案)
+- [十二、API 认证说明](#user-content十二api-认证说明)
+- [十三、配置项详解](#user-content十三配置项详解)
+- [十四、常见问题（FAQ）](#user-content十四常见问题faq)
+- [十五、开发指南](#user-content十五开发指南)
+- [十六、许可证](#user-content十六许可证)
+- [十七、技术支持](#user-content十七技术支持)
 
 ---
 
@@ -826,7 +826,7 @@ routes = [
 
 ### API Token 创建
 
-见 [第 2 步](#第-2-步创建-cloudflare-api-token)。需 Account + Zone 的 Analytics **Read**。
+见 [第 2 步](#user-content第-2-步创建-cloudflare-api-token)。需 Account + Zone 的 Analytics **Read**。
 
 ### Global API Key（不推荐）
 

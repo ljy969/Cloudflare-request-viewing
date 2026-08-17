@@ -6,37 +6,37 @@
 
 ## Table of Contents
 
-- [1. Introduction](#introduction)
-- [2. Features](#features)
-- [3. Tech Stack](#tech-stack)
-- [4. Project Structure](#project-structure)
-- [5. How It Works](#how-it-works)
-- [6. Quick Start (5 Steps)](#quick-start-5-steps)
-  - [Step 1: Get Your Cloudflare Account ID](#step-1-get-your-cloudflare-account-id)
-  - [Step 2: Create a Cloudflare API Token](#step-2-create-a-cloudflare-api-token)
-  - [Step 3: Deploy the Worker Proxy (Solve CORS)](#step-3-deploy-the-worker-proxy-solve-cors)
-  - [Step 4: Add an Account in the App](#step-4-add-an-account-in-the-app)
-  - [Step 5: Fetch Usage Data](#step-5-fetch-usage-data)
-- [7. Run Locally](#run-locally)
-- [8. Deployment Guide](#deployment-guide)
-  - [8.1 Deploy the Pages Frontend](#81-deploy-the-pages-frontend)
-  - [8.2 Deploy the Worker API Proxy](#82-deploy-the-worker-api-proxy)
-  - [8.3 Custom Domain](#83-custom-domain)
-- [9. User Guide (Detailed Steps)](#user-guide-detailed-steps)
-  - [9.1 Dashboard](#91-dashboard)
-  - [9.2 Account Management](#92-account-management)
-  - [9.3 Multi-Account Comparison](#93-multi-account-comparison)
-  - [9.4 Data Management](#94-data-management)
-  - [9.5 Settings](#95-settings)
-  - [9.6 UI Language and Theme Switching](#96-ui-language-and-theme-switching)
-- [10. Data Collection Details](#data-collection-details)
-- [11. Data Storage Solution](#data-storage-solution)
-- [12. API Authentication Explained](#api-authentication-explained)
-- [13. Configuration Reference](#configuration-reference)
-- [14. FAQ](#faq)
-- [15. Development Guide](#development-guide)
-- [16. License](#license)
-- [17. Support](#support)
+- [1. Introduction](#user-content-introduction)
+- [2. Features](#user-content-features)
+- [3. Tech Stack](#user-content-tech-stack)
+- [4. Project Structure](#user-content-project-structure)
+- [5. How It Works](#user-content-how-it-works)
+- [6. Quick Start (5 Steps)](#user-content-quick-start-5-steps)
+  - [Step 1: Get Your Cloudflare Account ID](#user-content-step-1-get-your-cloudflare-account-id)
+  - [Step 2: Create a Cloudflare API Token](#user-content-step-2-create-a-cloudflare-api-token)
+  - [Step 3: Deploy the Worker Proxy (Solve CORS)](#user-content-step-3-deploy-the-worker-proxy-solve-cors)
+  - [Step 4: Add an Account in the App](#user-content-step-4-add-an-account-in-the-app)
+  - [Step 5: Fetch Usage Data](#user-content-step-5-fetch-usage-data)
+- [7. Run Locally](#user-content-run-locally)
+- [8. Deployment Guide](#user-content-deployment-guide)
+  - [8.1 Deploy the Pages Frontend](#user-content-81-deploy-the-pages-frontend)
+  - [8.2 Deploy the Worker API Proxy](#user-content-82-deploy-the-worker-api-proxy)
+  - [8.3 Custom Domain](#user-content-83-custom-domain)
+- [9. User Guide (Detailed Steps)](#user-content-user-guide-detailed-steps)
+  - [9.1 Dashboard](#user-content-91-dashboard)
+  - [9.2 Account Management](#user-content-92-account-management)
+  - [9.3 Multi-Account Comparison](#user-content-93-multi-account-comparison)
+  - [9.4 Data Management](#user-content-94-data-management)
+  - [9.5 Settings](#user-content-95-settings)
+  - [9.6 UI Language and Theme Switching](#user-content-96-ui-language-and-theme-switching)
+- [10. Data Collection Details](#user-content-data-collection-details)
+- [11. Data Storage Solution](#user-content-data-storage-solution)
+- [12. API Authentication Explained](#user-content-api-authentication-explained)
+- [13. Configuration Reference](#user-content-configuration-reference)
+- [14. FAQ](#user-content-faq)
+- [15. Development Guide](#user-content-development-guide)
+- [16. License](#user-content-license)
+- [17. Support](#user-content-support)
 
 ---
 
@@ -826,7 +826,7 @@ Internally unified in bytes; automatically converted at display time: B â†’ KB â
 
 ### API Token Creation
 
-See [Step 2](#step-2-create-a-cloudflare-api-token). Requires Account + Zone Analytics **Read**.
+See [Step 2](#user-content-step-2-create-a-cloudflare-api-token). Requires Account + Zone Analytics **Read**.
 
 ### Global API Key (not recommended)
 
