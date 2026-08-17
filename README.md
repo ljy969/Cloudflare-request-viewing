@@ -1,10 +1,6 @@
 # Cloudflare 使用情况追踪器
 
->  **语言切换 / Language Switcher**
-> 本文档提供中文与英文两个独立文件。
-> - 🇨🇳 你正在阅读**中文版**（README.md）
-> - 🇺🇸 点击此处切换到 **English Version（README.en.md）**
->
+[英文](./README.en.md)
 
 
 ---
