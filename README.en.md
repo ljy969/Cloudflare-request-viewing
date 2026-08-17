@@ -1,11 +1,6 @@
 # Cloudflare Usage Tracker
 
-> 🌐 **Language Switcher**
-> This documentation is provided as two separate files, in Chinese and English.
-> - 🇨🇳 You are reading the **Chinese version** — see [README.md](./README.md)
-> - 🇺🇸 You are reading the **English Version (README.en.md)**
->
-> Inside the application you can also click the 🌐 button at the bottom of the sidebar to switch the UI language in real time (中文 / English).
+[中文](./README.md) [英文]
 
 ---
 
