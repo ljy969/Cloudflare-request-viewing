@@ -32,7 +32,7 @@ const Charts = {
         labels: data.labels,
         datasets: [
           {
-            label: '请求数',
+            label: I18n.t('dashboard.requests'),
             data: data.requests,
             borderColor: colors.accent,
             backgroundColor: colors.accent + '30',
@@ -41,7 +41,7 @@ const Charts = {
             yAxisID: 'y'
           },
           {
-            label: 'Worker 调用',
+            label: I18n.t('dashboard.workers'),
             data: data.workers,
             borderColor: colors.info,
             backgroundColor: colors.info + '30',
@@ -67,7 +67,7 @@ const Charts = {
             padding: 10,
             callbacks: {
               label: (context) => {
-                return `${context.dataset.label}: ${CF_API.formatNumber(context.parsed.y)}`;
+                return `${context.dataset.label}: ${(context.parsed.y >= 1e8 ? CF_API.formatBytes(context.parsed.y) : CF_API.formatNumber(context.parsed.y))}`;
               }
             }
           }
@@ -85,7 +85,7 @@ const Charts = {
               color: colors.text,
               callback: (v) => CF_API.formatNumber(v)
             },
-            title: { display: true, text: '请求数', color: colors.text }
+            title: { display: true, text: I18n.t('dashboard.requests'), color: colors.text }
           },
           y1: {
             type: 'linear',
@@ -95,7 +95,7 @@ const Charts = {
               color: colors.text,
               callback: (v) => CF_API.formatNumber(v)
             },
-            title: { display: true, text: 'Worker', color: colors.text }
+            title: { display: true, text: I18n.t('dashboard.workers'), color: colors.text }
           }
         }
       }
@@ -124,12 +124,16 @@ const Charts = {
     const totalBandwidth = data.bandwidth.reduce((a, b) => a + b, 0);
     const totalPV = data.pageViews.reduce((a, b) => a + b, 0);
 
+    // 带宽原始单位是字节，量级远大于请求数/浏览量，统一换算为 MB（÷1024²）
+    // 使环形图各扇区处于相近量级，占比更有意义；tooltip 再还原为字节展示
+    const MB = 1024 * 1024;
+
     const config = {
       type: 'doughnut',
       data: {
-        labels: ['请求数', 'Worker 调用', '带宽消耗', '页面浏览'],
+        labels: [I18n.t('dashboard.requests'), I18n.t('dashboard.workers'), I18n.t('dashboard.bandwidthLabel'), I18n.t('dashboard.pageViews')],
         datasets: [{
-          data: [totalRequests, totalWorkers, totalBandwidth / 1024, totalPV],
+          data: [totalRequests, totalWorkers, totalBandwidth / MB, totalPV],
           backgroundColor: [
             colors.accent + 'CC',
             colors.info + 'CC',
@@ -154,8 +158,8 @@ const Charts = {
               label: (context) => {
                 const label = context.label;
                 const value = context.parsed;
-                if (label === '带宽消耗') {
-                  return `${label}: ${CF_API.formatBytes(value * 1024)}`;
+                if (label === I18n.t('dashboard.bandwidthLabel')) {
+                  return `${label}: ${CF_API.formatBytes(value * MB)}`;
                 }
                 return `${label}: ${CF_API.formatNumber(value)}`;
               }
@@ -183,9 +187,9 @@ const Charts = {
     const data = await UsageTracker.getComparisonData(metric, range);
 
     const metricLabels = {
-      requests: '请求数',
-      workers: 'Worker 调用',
-      bandwidth: '带宽使用'
+      requests: I18n.t('comparison.metric.requests'),
+      workers: I18n.t('comparison.metric.workers'),
+      bandwidth: I18n.t('comparison.metric.bandwidth')
     };
 
     const config = {
@@ -212,13 +216,14 @@ const Charts = {
             backgroundColor: 'rgba(0,0,0,0.8)',
             callbacks: {
               label: (context) => {
-                return `${context.dataset.label}: ${CF_API.formatNumber(context.parsed.y)}`;
+                const v = context.parsed.y;
+                return `${context.dataset.label}: ${(metric === 'bandwidth' ? CF_API.formatBytes(v) : CF_API.formatNumber(v))}`;
               }
             }
           },
           title: {
             display: true,
-            text: `多账户${metricLabels[metric] || '请求数'}对比`,
+            text: `${I18n.t('comparison.title')} ${I18n.t(metricLabels[metric] || 'comparison.metric.requests')}`,
             color: colors.text,
             font: { size: 14 }
           }
@@ -261,6 +266,14 @@ const Charts = {
     if (accountId) {
       await this.renderTrendChart(accountId, parseInt(document.getElementById('trendRange')?.value || '30'));
       await this.renderResourceChart(accountId);
+
+      // 若当前在对比页，也一并重绘对比图
+      const comparePage = document.getElementById('page-comparison');
+      if (comparePage && !comparePage.classList.contains('hidden')) {
+        const metric = document.getElementById('compareMetric')?.value || 'requests';
+        const range = document.getElementById('compareRange')?.value || 'month';
+        await this.renderComparisonChart(metric, range);
+      }
     }
   }
 };

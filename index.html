@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cloudflare 使用情况追踪器</title>
+  <title data-i18n="app.title">Cloudflare 使用情况追踪器</title>
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="js/vendor/idb.js"></script>
@@ -17,30 +17,30 @@
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <span>CF 追踪器</span>
+          <span data-i18n="app.name">CF 追踪器</span>
         </div>
       </div>
 
       <nav class="nav-menu">
         <a href="#" class="nav-item active" data-page="dashboard">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          <span>仪表盘</span>
+          <span data-i18n="nav.dashboard">仪表盘</span>
         </a>
         <a href="#" class="nav-item" data-page="accounts">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-          <span>账户管理</span>
+          <span data-i18n="nav.accounts">账户管理</span>
         </a>
         <a href="#" class="nav-item" data-page="comparison">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          <span>多账户对比</span>
+          <span data-i18n="nav.comparison">多账户对比</span>
         </a>
         <a href="#" class="nav-item" data-page="data">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-          <span>数据管理</span>
+          <span data-i18n="nav.data">数据管理</span>
         </a>
         <a href="#" class="nav-item" data-page="settings">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9 1.65 1.65 0 004.27 7.18l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-          <span>设置</span>
+          <span data-i18n="nav.settings">设置</span>
         </a>
       </nav>
 
@@ -49,6 +49,10 @@
           <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
           <span id="themeLabel">深色</span>
+        </button>
+        <button class="lang-toggle" id="langToggle" title="Switch Language">
+          <svg class="icon-globe" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span id="langLabel">English</span>
         </button>
       </div>
     </aside>
@@ -65,7 +69,7 @@
           <span class="active-account" id="activeAccountLabel">未选择账户</span>
           <button class="btn btn-primary" id="refreshBtn" title="刷新数据">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-            <span>刷新</span>
+            <span data-i18n="app.refreshed">刷新</span>
           </button>
         </div>
       </header>
@@ -77,7 +81,7 @@
         <section class="page" id="page-dashboard">
           <div class="stats-grid" id="statsGrid">
             <div class="stat-card">
-              <div class="stat-label">今日请求</div>
+              <div class="stat-label" data-i18n="dashboard.todayRequests">今日请求</div>
               <div class="stat-value" id="todayRequests">--</div>
               <div class="stat-progress">
                 <div class="progress-bar"><div class="progress-fill" id="requestsProgress"></div></div>
@@ -85,7 +89,7 @@
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-label">Worker 调用</div>
+              <div class="stat-label" data-i18n="dashboard.workerCalls">Worker 调用</div>
               <div class="stat-value" id="todayWorkers">--</div>
               <div class="stat-progress">
                 <div class="progress-bar"><div class="progress-fill" id="workersProgress"></div></div>
@@ -93,26 +97,26 @@
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-label">本月请求</div>
+              <div class="stat-label" data-i18n="dashboard.monthRequests">本月请求</div>
               <div class="stat-value" id="monthRequests">--</div>
-              <div class="stat-sub" id="monthRequestsSub">月度累计</div>
+              <div class="stat-sub" id="monthRequestsSub" data-i18n="dashboard.monthlyTotal">月度累计</div>
             </div>
             <div class="stat-card">
-              <div class="stat-label">带宽使用</div>
+              <div class="stat-label" data-i18n="dashboard.bandwidth">带宽使用</div>
               <div class="stat-value" id="bandwidthUsed">--</div>
-              <div class="stat-sub" id="bandwidthSub">当月累计</div>
+              <div class="stat-sub" id="bandwidthSub" data-i18n="dashboard.currentMonth">当月累计</div>
             </div>
           </div>
 
           <div class="chart-row">
             <div class="chart-card">
               <div class="chart-header">
-                <h3>请求趋势（最近30天）</h3>
+                <h3 data-i18n="dashboard.trend">请求趋势（最近30天）</h3>
                 <div class="chart-actions">
                   <select id="trendRange" class="select">
-                    <option value="7">7 天</option>
-                    <option value="30" selected>30 天</option>
-                    <option value="90">90 天</option>
+                    <option value="7" data-i18n="dashboard.days.7">7 天</option>
+                    <option value="30" selected data-i18n="dashboard.days.30">30 天</option>
+                    <option value="90" data-i18n="dashboard.days.90">90 天</option>
                   </select>
                 </div>
               </div>
@@ -123,7 +127,7 @@
 
             <div class="chart-card">
               <div class="chart-header">
-                <h3>资源分布</h3>
+                <h3 data-i18n="dashboard.resource">资源分布</h3>
               </div>
               <div class="chart-body">
                 <canvas id="resourceChart"></canvas>
@@ -133,21 +137,21 @@
 
           <div class="chart-card">
             <div class="chart-header">
-              <h3>使用情况详情</h3>
+              <h3 data-i18n="dashboard.details">使用情况详情</h3>
             </div>
             <div class="chart-body table-container">
               <table class="data-table" id="usageTable">
                 <thead>
                   <tr>
-                    <th>日期</th>
-                    <th>请求数</th>
-                    <th>Worker 调用</th>
-                    <th>带宽</th>
-                    <th>状态</th>
+                    <th data-i18n="dashboard.date">日期</th>
+                    <th data-i18n="dashboard.requests">请求数</th>
+                    <th data-i18n="dashboard.workers">Worker 调用</th>
+                    <th data-i18n="dashboard.bandwidthLabel">带宽</th>
+                    <th data-i18n="dashboard.status">状态</th>
                   </tr>
                 </thead>
                 <tbody id="usageTableBody">
-                  <tr><td colspan="5" class="empty-state">暂无数据，请先添加账户并刷新</td></tr>
+                  <tr><td colspan="5" class="empty-state" data-i18n="dashboard.emptyNoAccount">暂无数据，请先添加账户并刷新</td></tr>
                 </tbody>
               </table>
             </div>
@@ -157,10 +161,10 @@
         <!-- 账户管理页面 -->
         <section class="page hidden" id="page-accounts">
           <div class="page-header">
-            <h2>账户管理</h2>
+            <h2 data-i18n="accounts.title">账户管理</h2>
             <button class="btn btn-primary" id="addAccountBtn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              添加账户
+              <span data-i18n="accounts.add">添加账户</span>
             </button>
           </div>
           <div class="accounts-grid" id="accountsGrid">
@@ -171,17 +175,17 @@
         <!-- 多账户对比页面 -->
         <section class="page hidden" id="page-comparison">
           <div class="page-header">
-            <h2>多账户对比</h2>
+            <h2 data-i18n="comparison.title">多账户对比</h2>
             <div class="filter-bar">
               <select id="compareMetric" class="select">
-                <option value="requests">请求数</option>
-                <option value="workers">Worker 调用</option>
-                <option value="bandwidth">带宽使用</option>
+                <option value="requests" data-i18n="comparison.metric.requests">请求数</option>
+                <option value="workers" data-i18n="comparison.metric.workers">Worker 调用</option>
+                <option value="bandwidth" data-i18n="comparison.metric.bandwidth">带宽使用</option>
               </select>
               <select id="compareRange" class="select">
-                <option value="today">今日</option>
-                <option value="week">近7天</option>
-                <option value="month" selected>近30天</option>
+                <option value="today" data-i18n="comparison.range.today">今日</option>
+                <option value="week" data-i18n="comparison.range.week">近7天</option>
+                <option value="month" selected data-i18n="comparison.range.month">近30天</option>
               </select>
             </div>
           </div>
@@ -191,16 +195,16 @@
             </div>
           </div>
           <div class="chart-card">
-            <div class="chart-header"><h3>汇总统计</h3></div>
+            <div class="chart-header"><h3 data-i18n="comparison.summary">汇总统计</h3></div>
             <div class="chart-body table-container">
               <table class="data-table" id="comparisonTable">
                 <thead>
                   <tr>
-                    <th>账户</th>
-                    <th>请求总数</th>
-                    <th>Worker 调用</th>
-                    <th>带宽</th>
-                    <th>活跃天数</th>
+                    <th data-i18n="accounts.name">账户</th>
+                    <th data-i18n="comparison.totalRequests">请求总数</th>
+                    <th data-i18n="comparison.totalWorkers">Worker 调用</th>
+                    <th data-i18n="comparison.totalBandwidth">带宽</th>
+                    <th data-i18n="comparison.activeDays">活跃天数</th>
                   </tr>
                 </thead>
                 <tbody id="comparisonTableBody"></tbody>
@@ -212,103 +216,103 @@
         <!-- 数据管理页面 -->
         <section class="page hidden" id="page-data">
           <div class="page-header">
-            <h2>数据管理</h2>
+            <h2 data-i18n="data.title">数据管理</h2>
           </div>
           <div class="data-actions">
             <div class="action-card">
               <div class="action-icon">📦</div>
-              <h3>导出备份</h3>
-              <p>将所有账户配置和使用数据导出为 JSON 文件</p>
-              <button class="btn btn-primary" id="exportBtn">导出数据</button>
+              <h3 data-i18n="data.export">导出备份</h3>
+              <p data-i18n="data.exportDesc">将所有账户配置和使用数据导出为 JSON 文件</p>
+              <button class="btn btn-primary" id="exportBtn" data-i18n="data.exportBtn">导出数据</button>
             </div>
             <div class="action-card">
               <div class="action-icon">📥</div>
-              <h3>导入恢复</h3>
-              <p>从备份文件恢复所有数据</p>
-              <button class="btn btn-secondary" id="importBtn">导入数据</button>
+              <h3 data-i18n="data.import">导入恢复</h3>
+              <p data-i18n="data.importDesc">从备份文件恢复所有数据</p>
+              <button class="btn btn-secondary" id="importBtn" data-i18n="data.importBtn">导入数据</button>
               <input type="file" id="importFile" accept=".json" hidden />
             </div>
             <div class="action-card danger">
               <div class="action-icon">🗑️</div>
-              <h3>清空数据</h3>
-              <p>删除所有账户和使用记录（不可恢复）</p>
-              <button class="btn btn-danger" id="clearAllBtn">清空所有数据</button>
+              <h3 data-i18n="data.clear">清空数据</h3>
+              <p data-i18n="data.clearDesc">删除所有账户和使用记录（不可恢复）</p>
+              <button class="btn btn-danger" id="clearAllBtn" data-i18n="data.clearBtn">清空所有数据</button>
             </div>
           </div>
           <div class="data-info">
-            <h3>存储统计</h3>
+            <h3 data-i18n="data.stats">存储统计</h3>
             <div class="info-grid" id="storageStats">
-              <div class="info-item"><span class="info-label">账户数量</span><span class="info-value" id="statAccounts">0</span></div>
-              <div class="info-item"><span class="info-label">使用记录</span><span class="info-value" id="statRecords">0</span></div>
-              <div class="info-item"><span class="info-label">最近同步</span><span class="info-value" id="statLastSync">--</span></div>
-              <div class="info-item"><span class="info-label">存储空间</span><span class="info-value" id="statSize">--</span></div>
+              <div class="info-item"><span class="info-label" data-i18n="data.statAccounts">账户数量</span><span class="info-value" id="statAccounts">0</span></div>
+              <div class="info-item"><span class="info-label" data-i18n="data.statRecords">使用记录</span><span class="info-value" id="statRecords">0</span></div>
+              <div class="info-item"><span class="info-label" data-i18n="data.statLastSync">最近同步</span><span class="info-value" id="statLastSync">--</span></div>
+              <div class="info-item"><span class="info-label" data-i18n="data.statSize">存储空间</span><span class="info-value" id="statSize">--</span></div>
             </div>
           </div>
         </section>
 
         <!-- 设置页面 -->
         <section class="page hidden" id="page-settings">
-          <div class="page-header"><h2>设置</h2></div>
+          <div class="page-header"><h2 data-i18n="settings.title">设置</h2></div>
           
           <div class="settings-section">
-            <h3>外观设置</h3>
+            <h3 data-i18n="settings.appearance">外观设置</h3>
             <div class="settings-row">
               <div class="settings-info">
-                <label>主题模式</label>
-                <span class="settings-desc">选择深色/浅色模式，或跟随系统</span>
+                <label data-i18n="settings.themeLabel">主题模式</label>
+                <span class="settings-desc" data-i18n="settings.themeDesc">选择深色/浅色模式，或跟随系统</span>
               </div>
               <div class="theme-options">
                 <button class="theme-opt" data-theme="light">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                  <span>浅色</span>
+                  <span data-i18n="settings.theme.light">浅色</span>
                 </button>
                 <button class="theme-opt" data-theme="dark">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-                  <span>深色</span>
+                  <span data-i18n="settings.theme.dark">深色</span>
                 </button>
                 <button class="theme-opt active" data-theme="system">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                  <span>跟随系统</span>
+                  <span data-i18n="settings.theme.system">跟随系统</span>
                 </button>
               </div>
             </div>
           </div>
 
           <div class="settings-section">
-            <h3>数据采集</h3>
+            <h3 data-i18n="settings.dataCollection">数据采集</h3>
             <div class="settings-row">
               <div class="settings-info">
-                <label>自动采集间隔</label>
-                <span class="settings-desc">每隔指定时间自动同步使用数据</span>
+                <label data-i18n="settings.autoFetchLabel">自动采集间隔</label>
+                <span class="settings-desc" data-i18n="settings.autoFetchDesc">每隔指定时间自动同步使用数据</span>
               </div>
               <select id="autoFetchInterval" class="select">
-                <option value="0">禁用自动采集</option>
-                <option value="30">每 30 分钟</option>
-                <option value="60" selected>每 1 小时</option>
-                <option value="360">每 6 小时</option>
-                <option value="720">每 12 小时</option>
-                <option value="1440">每天</option>
+                <option value="0" data-i18n="settings.autoFetch.off">禁用自动采集</option>
+                <option value="30" data-i18n="settings.autoFetch.30">每 30 分钟</option>
+                <option value="60" selected data-i18n="settings.autoFetch.60">每 1 小时</option>
+                <option value="360" data-i18n="settings.autoFetch.360">每 6 小时</option>
+                <option value="720" data-i18n="settings.autoFetch.720">每 12 小时</option>
+                <option value="1440" data-i18n="settings.autoFetch.1440">每天</option>
               </select>
             </div>
             <div class="settings-row">
               <div class="settings-info">
-                <label>采集历史天数</label>
-                <span class="settings-desc">每次采集时回溯获取多少天的历史数据</span>
+                <label data-i18n="settings.fetchHistoryLabel">采集历史天数</label>
+                <span class="settings-desc" data-i18n="settings.fetchHistoryDesc">每次采集时回溯获取多少天的历史数据</span>
               </div>
               <select id="fetchHistoryDays" class="select">
-                <option value="7">最近 7 天</option>
-                <option value="30" selected>最近 30 天</option>
-                <option value="90">最近 90 天</option>
+                <option value="7" data-i18n="settings.history.7">最近 7 天</option>
+                <option value="30" selected data-i18n="settings.history.30">最近 30 天</option>
+                <option value="90" data-i18n="settings.history.90">最近 90 天</option>
               </select>
             </div>
           </div>
 
           <div class="settings-section">
-            <h3>部署信息</h3>
+            <h3 data-i18n="settings.deployment">部署信息</h3>
             <div class="settings-row">
               <div class="settings-info">
-                <label>API 代理地址</label>
-                <span class="settings-desc">Cloudflare Worker 代理地址（用于跨域请求）</span>
+                <label data-i18n="settings.workerUrlLabel">API 代理地址</label>
+                <span class="settings-desc" data-i18n="settings.workerUrlDesc">Cloudflare Worker 代理地址（用于跨域请求）</span>
               </div>
               <input type="text" id="workerUrl" class="input" placeholder="https://your-worker.workers.dev" />
             </div>
@@ -323,31 +327,34 @@
     <div class="modal-overlay"></div>
     <div class="modal-content">
       <div class="modal-header">
-        <h3 id="modalTitle">添加账户</h3>
+        <h3 id="modalTitle" data-i18n="modal.addTitle">添加账户</h3>
         <button class="modal-close" id="modalClose">&times;</button>
       </div>
       <form class="modal-body" id="accountForm">
-        <input type="hidden" id="accountId" />
         <div class="form-group">
-          <label>账户名称 *</label>
-          <input type="text" id="accountName" class="input" placeholder="给账户起个名字" required />
+          <label data-i18n="modal.name">账户名称 *</label>
+          <input type="text" id="accountName" class="input" data-i18n-placeholder="modal.namePlaceholder" placeholder="给账户起个名字" required />
         </div>
         <div class="form-group">
-          <label>Cloudflare 账户 ID *</label>
-          <input type="text" id="accountIdInput" class="input" placeholder="在 CF 控制台 URL 中可以找到" required />
+          <label data-i18n="modal.accountId">Cloudflare 账户 ID *</label>
+          <input type="text" id="accountIdInput" class="input" data-i18n-placeholder="modal.accountIdPlaceholder" placeholder="在 CF 控制台 URL 中可以找到" required />
         </div>
         <div class="form-group">
-          <label>API Token *</label>
-          <input type="password" id="apiToken" class="input" placeholder="具有 Analytics 只读权限的 API Token" required />
-          <span class="form-hint">在 Cloudflare Dashboard → My Profile → API Tokens 创建</span>
+          <label data-i18n="modal.apiToken">API Token *</label>
+          <input type="password" id="apiToken" class="input" data-i18n-placeholder="modal.apiTokenPlaceholder" placeholder="具有 Analytics 只读权限的 API Token" required />
+          <span class="form-hint" data-i18n="modal.apiTokenHint">在 Cloudflare Dashboard → My Profile → API Tokens 创建</span>
         </div>
         <div class="form-group">
-          <label>API 邮箱（Global Key 模式可选）</label>
-          <input type="text" id="apiEmail" class="input" placeholder="使用 API Key 认证时需要" />
+          <label data-i18n="modal.apiEmail">API 邮箱（Global Key 模式可选）</label>
+          <input type="text" id="apiEmail" class="input" data-i18n-placeholder="modal.apiEmailPlaceholder" placeholder="使用 API Key 认证时需要" />
+        </div>
+        <div class="form-group">
+          <label data-i18n="modal.apiKey">API Key（Global Key 模式可选）</label>
+          <input type="text" id="apiKey" class="input" data-i18n-placeholder="modal.apiKeyPlaceholder" placeholder="使用 Global API Key 认证时需要" />
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="modalCancel">取消</button>
-          <button type="submit" class="btn btn-primary" id="modalSubmit">保存</button>
+          <button type="button" class="btn btn-secondary" id="modalCancel" data-i18n="modal.cancel">取消</button>
+          <button type="submit" class="btn btn-primary" id="modalSubmit" data-i18n="modal.save">保存</button>
         </div>
       </form>
     </div>
@@ -358,6 +365,7 @@
 
   <!-- 脚本加载 -->
   <script src="js/theme.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/db.js"></script>
   <script src="js/api.js"></script>
   <script src="js/usage.js"></script>

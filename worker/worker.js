@@ -11,6 +11,16 @@ const CORS_HEADERS = {
 
 const CF_API_BASE = 'https://api.cloudflare.com/client/v4';
 
+function jsonResponse(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      ...CORS_HEADERS,
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
 export default {
   async fetch(request, env, ctx) {
     // 处理 CORS 预检请求
@@ -20,7 +30,7 @@ export default {
 
     // 只允许 POST 请求
     if (request.method !== 'POST') {
-      return this.jsonResponse({ error: '只支持 POST 请求' }, 405);
+      return jsonResponse({ error: '只支持 POST 请求' }, 405);
     }
 
     try {
@@ -29,7 +39,7 @@ export default {
 
       // 验证请求
       if (!url || !url.startsWith(CF_API_BASE)) {
-        return this.jsonResponse({ error: '无效的请求 URL，必须指向 Cloudflare API' }, 400);
+        return jsonResponse({ error: '无效的请求 URL，必须指向 Cloudflare API' }, 400);
       }
 
       // 构建转发请求
@@ -60,7 +70,6 @@ export default {
       const responseHeaders = {
         ...CORS_HEADERS,
         'Content-Type': 'application/json',
-        'Status': response.status,
       };
 
       return new Response(responseData, {
@@ -68,20 +77,10 @@ export default {
         headers: responseHeaders,
       });
     } catch (error) {
-      return this.jsonResponse(
+      return jsonResponse(
         { error: '代理请求失败: ' + error.message },
         500
       );
     }
-  },
-
-  jsonResponse(data, status = 200) {
-    return new Response(JSON.stringify(data), {
-      status,
-      headers: {
-        ...CORS_HEADERS,
-        'Content-Type': 'application/json',
-      },
-    });
   },
 };

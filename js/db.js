@@ -27,7 +27,6 @@ const DB = {
           const store = db.createObjectStore(STORES.USAGE_RECORDS, { keyPath: 'id', autoIncrement: true });
           store.createIndex('accountId', 'accountId', { unique: false });
           store.createIndex('date', 'date', { unique: false });
-          store.createIndex(['accountId', 'date'], ['accountId', 'date'], { unique: false });
         }
         if (!db.objectStoreNames.contains(STORES.SETTINGS)) {
           db.createObjectStore(STORES.SETTINGS, { keyPath: 'key' });
@@ -77,18 +76,20 @@ const DB = {
 
   async deleteAccount(id) {
     await this.init();
+    // First, get all usage records for this account (outside transaction)
+    const allRecords = await dbInstance.getAll(STORES.USAGE_RECORDS);
     const tx = dbInstance.transaction([STORES.ACCOUNTS, STORES.USAGE_RECORDS], 'readwrite');
 
     // idb v8.x: 使用 objectStore() 而非 store()
-    await tx.objectStore(STORES.ACCOUNTS).delete(id);
-
+    const accountStore = tx.objectStore(STORES.ACCOUNTS);
     const usageStore = tx.objectStore(STORES.USAGE_RECORDS);
-    const allRecords = await usageStore.getAll();
-    for (const record of allRecords) {
-      if (record.accountId === id) {
-        await usageStore.delete(record.id);
-      }
-    }
+
+    await accountStore.delete(id);
+
+    const ops = allRecords
+      .filter(r => r.accountId === id)
+      .map(r => usageStore.delete(r.id));
+    await Promise.all(ops);
 
     await tx.done;
 
@@ -100,14 +101,15 @@ const DB = {
 
   async setActiveAccount(id) {
     await this.init();
+    const accounts = await dbInstance.getAll(STORES.ACCOUNTS);
     const tx = dbInstance.transaction(STORES.ACCOUNTS, 'readwrite');
     const store = tx.objectStore(STORES.ACCOUNTS);
-    const all = await store.getAll();
-    for (const acc of all) {
+    const ops = accounts.map(acc => {
       acc.isActive = acc.id === id;
       acc.updatedAt = new Date().toISOString();
-      await store.put(acc);
-    }
+      return store.put(acc);
+    });
+    await Promise.all(ops);
     await tx.done;
   },
 
@@ -127,9 +129,9 @@ const DB = {
     await this.init();
     const tx = dbInstance.transaction(STORES.USAGE_RECORDS, 'readwrite');
     const store = tx.objectStore(STORES.USAGE_RECORDS);
-    for (const record of records) {
-      await store.add(record);
-    }
+    // 同步排队所有写入，再统一 await，避免事务在多次 await 间隙被自动提交
+    const ops = records.map(r => store.add(r));
+    await Promise.all(ops);
     await tx.done;
   },
 
@@ -137,11 +139,14 @@ const DB = {
     await this.init();
     const allRecords = await dbInstance.getAll(STORES.USAGE_RECORDS);
     const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - days);
+    cutoffDate.setHours(0, 0, 0, 0);
+    // - days + 1：让窗口与采集窗口一致（startDate = today - days + 1），
+    // 即“最近 N 天”精确地包含今天在内的 N 天，而不是 N+1 天
+    cutoffDate.setDate(cutoffDate.getDate() - days + 1);
 
     return allRecords
-      .filter(r => r.accountId === accountId && new Date(r.date) >= cutoffDate)
-      .sort((a, b) => new Date(a.date) - new Date(b.date));
+      .filter(r => r.accountId === accountId && parseLocalDate(r.date) >= cutoffDate)
+      .sort((a, b) => parseLocalDate(a.date) - parseLocalDate(b.date));
   },
 
   async getAllUsageRecords(accountId) {
@@ -149,7 +154,7 @@ const DB = {
     const allRecords = await dbInstance.getAll(STORES.USAGE_RECORDS);
     return allRecords
       .filter(r => r.accountId === accountId)
-      .sort((a, b) => new Date(a.date) - new Date(b.date));
+      .sort((a, b) => parseLocalDate(a.date) - parseLocalDate(b.date));
   },
 
   async deleteUsageRecords(accountId) {
@@ -157,18 +162,12 @@ const DB = {
     const tx = dbInstance.transaction(STORES.USAGE_RECORDS, 'readwrite');
     const store = tx.objectStore(STORES.USAGE_RECORDS);
     const all = await store.getAll();
-    for (const record of all) {
-      if (record.accountId === accountId) {
-        await store.delete(record.id);
-      }
-    }
+    // 同步排队所有删除，再统一 await
+    const ops = all
+      .filter(r => r.accountId === accountId)
+      .map(r => store.delete(r.id));
+    await Promise.all(ops);
     await tx.done;
-  },
-
-  async getUsageRecordCount(accountId) {
-    await this.init();
-    const records = await dbInstance.getAll(STORES.USAGE_RECORDS);
-    return records.filter(r => r.accountId === accountId).length;
   },
 
   // ===== 设置操作 =====
@@ -181,11 +180,6 @@ const DB = {
   async setSetting(key, value) {
     await this.init();
     return dbInstance.put(STORES.SETTINGS, { key, value });
-  },
-
-  async deleteSetting(key) {
-    await this.init();
-    return dbInstance.delete(STORES.SETTINGS, key);
   },
 
   // ===== 数据库维护 =====
@@ -211,28 +205,28 @@ const DB = {
     );
 
     // idb v8.x: 所有 transaction 内部操作使用 objectStore()
-    await tx.objectStore(STORES.ACCOUNTS).clear();
-    await tx.objectStore(STORES.USAGE_RECORDS).clear();
-    await tx.objectStore(STORES.SETTINGS).clear();
+    // 同步排队所有写入再统一 await，避免事务在多次 await 间隙被自动提交
+    const accountStore = tx.objectStore(STORES.ACCOUNTS);
+    const usageStore = tx.objectStore(STORES.USAGE_RECORDS);
+    const settingsStore = tx.objectStore(STORES.SETTINGS);
+
+    const ops = [
+      accountStore.clear(),
+      usageStore.clear(),
+      settingsStore.clear()
+    ];
 
     if (data.accounts) {
-      for (const acc of data.accounts) {
-        await tx.objectStore(STORES.ACCOUNTS).add(acc);
-      }
+      for (const acc of data.accounts) ops.push(accountStore.add(acc));
     }
-
     if (data.usageRecords) {
-      for (const rec of data.usageRecords) {
-        await tx.objectStore(STORES.USAGE_RECORDS).add(rec);
-      }
+      for (const rec of data.usageRecords) ops.push(usageStore.add(rec));
     }
-
     if (data.settings) {
-      for (const s of data.settings) {
-        await tx.objectStore(STORES.SETTINGS).put(s);
-      }
+      for (const s of data.settings) ops.push(settingsStore.put(s));
     }
 
+    await Promise.all(ops);
     await tx.done;
   },
 
@@ -242,9 +236,15 @@ const DB = {
       [STORES.ACCOUNTS, STORES.USAGE_RECORDS, STORES.SETTINGS],
       'readwrite'
     );
-    await tx.objectStore(STORES.ACCOUNTS).clear();
-    await tx.objectStore(STORES.USAGE_RECORDS).clear();
-    await tx.objectStore(STORES.SETTINGS).clear();
+    const accountStore = tx.objectStore(STORES.ACCOUNTS);
+    const usageStore = tx.objectStore(STORES.USAGE_RECORDS);
+    const settingsStore = tx.objectStore(STORES.SETTINGS);
+    const ops = [
+      accountStore.clear(),
+      usageStore.clear(),
+      settingsStore.clear()
+    ];
+    await Promise.all(ops);
     await tx.done;
   },
 
@@ -252,28 +252,23 @@ const DB = {
     await this.init();
     const accounts = await this.getAccounts();
     const usageRecords = await dbInstance.getAll(STORES.USAGE_RECORDS);
-    const lastSync = await this.getSetting('lastSync', null);
+    const settings = await dbInstance.getAll(STORES.SETTINGS);
+    const lastSyncSetting = settings.find(s => s.key === 'lastSync');
+    const lastSync = lastSyncSetting ? lastSyncSetting.value : null;
 
     const estimateSize = (obj) => {
       const str = JSON.stringify(obj);
       return new Blob([str]).size;
     };
 
-    const totalSize = estimateSize({ accounts, usageRecords });
+    // 统计体积时纳入 settings，估算更接近真实占用
+    const totalSize = estimateSize({ accounts, usageRecords, settings });
 
     return {
       accountCount: accounts.length,
       recordCount: usageRecords.length,
       lastSync,
-      storageSize: this.formatBytes(totalSize)
+      storageSize: CF_API.formatBytes(totalSize)
     };
-  },
-
-  formatBytes(bytes) {
-    if (bytes === 0) return '0 B';
-    const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
-};
+ };

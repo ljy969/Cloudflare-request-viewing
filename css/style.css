@@ -24,16 +24,20 @@
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --sidebar-width: 260px;
-  --sidebar-bg: #0f172a;
-  --sidebar-text: #e2e8f0;
-  --sidebar-hover: #1e293b;
+  /* 浅色模式下侧边栏变量（默认） */
+  --sidebar-bg: #ffffff;
+  --sidebar-text: #475569;
+  --sidebar-hover: #f1f5f9;
   --sidebar-active: #f38020;
+  --sidebar-border: #e2e8f0;
+  --sidebar-logo: #0f172a;
+  --sidebar-btn-hover: #e2e8f0;
   --radius: 10px;
   --radius-sm: 6px;
   --transition: 0.2s ease;
 }
 
-[data-theme="dark"] {
+:root[data-theme="dark"] {
   --bg-primary: #0f172a;
   --bg-secondary: #1e293b;
   --bg-tertiary: #334155;
@@ -60,6 +64,9 @@
   --sidebar-text: #e2e8f0;
   --sidebar-hover: #1e293b;
   --sidebar-active: #f38020;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-logo: #ffffff;
+  --sidebar-btn-hover: rgba(255, 255, 255, 0.1);
 }
 
 /* ===== 基础样式 ===== */
@@ -105,12 +112,13 @@ a:hover { color: var(--accent-hover); }
   left: 0;
   bottom: 0;
   z-index: 100;
+  border-right: 1px solid var(--sidebar-border);
   transition: transform var(--transition);
 }
 
 .sidebar-header {
   padding: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--sidebar-border);
 }
 
 .logo {
@@ -119,7 +127,7 @@ a:hover { color: var(--accent-hover); }
   gap: 10px;
   font-size: 1.25rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--sidebar-logo);
 }
 
 .logo svg { color: var(--accent); }
@@ -145,7 +153,7 @@ a:hover { color: var(--accent-hover); }
 
 .nav-item:hover {
   background: var(--sidebar-hover);
-  color: #fff;
+  color: var(--sidebar-text);
 }
 
 .nav-item.active {
@@ -158,7 +166,7 @@ a:hover { color: var(--accent-hover); }
 
 .sidebar-footer {
   padding: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--sidebar-border);
 }
 
 .theme-toggle {
@@ -177,12 +185,30 @@ a:hover { color: var(--accent-hover); }
   transition: background var(--transition);
 }
 
-.theme-toggle:hover { background: rgba(255, 255, 255, 0.1); }
+.theme-toggle:hover { background: var(--sidebar-btn-hover); }
 
 .theme-toggle .icon-sun,
 .theme-toggle .icon-moon { display: none; }
 [data-theme="light"] .theme-toggle .icon-moon { display: block; }
 [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+
+.lang-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--sidebar-hover);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--sidebar-text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background var(--transition);
+}
+
+.lang-toggle:hover { background: var(--sidebar-btn-hover); }
 
 /* ===== 主内容区 ===== */
 .main {
@@ -659,7 +685,7 @@ a:hover { color: var(--accent-hover); }
   gap: 4px;
   padding: 10px 16px;
   background: var(--bg-tertiary);
-  border: 2px solid transparent;
+  border: 2px solid var(--border-color);
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   cursor: pointer;
@@ -816,6 +842,7 @@ a:hover { color: var(--accent-hover); }
 .toast-success { border-left-color: var(--success); }
 .toast-error { border-left-color: var(--danger); }
 .toast-warning { border-left-color: var(--warning); }
+.toast-info { border-left-color: var(--info); }
 
 @keyframes toastIn {
   from { opacity: 0; transform: translateX(30px); }

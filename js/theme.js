@@ -35,15 +35,16 @@ const ThemeManager = {
 
     document.documentElement.setAttribute('data-theme', effectiveTheme);
     this.updateUI(theme, effectiveTheme);
+    document.dispatchEvent(new Event('themechange'));
   },
 
   updateUI(theme, effectiveTheme) {
     const label = document.getElementById('themeLabel');
     if (label) {
       if (theme === 'system') {
-        label.textContent = effectiveTheme === 'dark' ? '深色' : '浅色';
+        label.textContent = I18n.t('theme.system');
       } else {
-        label.textContent = theme === 'dark' ? '深色' : '浅色';
+        label.textContent = I18n.t(theme === 'dark' ? 'theme.dark' : 'theme.light');
       }
     }
 

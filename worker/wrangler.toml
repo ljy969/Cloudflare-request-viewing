@@ -3,6 +3,9 @@
 
 name = "cf-tracker-proxy"
 main = "worker.js"
+# worker.js 使用 ESM 写法（export default），现代 Wrangler 会自动按 ES Module 处理；
+# 如遇 “export is not defined” 之类的提示，可显式加：
+# compatibility_flags = ["nodejs_compat"]
 compatibility_date = "2024-01-01"
 
 # 路由配置（可选）

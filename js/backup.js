@@ -27,7 +27,7 @@ const BackupManager = {
 
   async exportData() {
     try {
-      App.showToast('正在导出数据...', 'info');
+      App.showToast(I18n.t('data.exporting'), 'info');
       const data = await DB.exportAll();
       
       // 生成文件名
@@ -47,64 +47,64 @@ const BackupManager = {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      App.showToast(`数据已导出: ${filename}`, 'success');
+      App.showToast(I18n.t('data.exported', filename), 'success');
     } catch (error) {
-      App.showToast(`导出失败: ${error.message}`, 'error');
+      App.showToast(I18n.t('data.exportFailed', error.message), 'error');
     }
   },
 
   async importData(file) {
     try {
-      App.showToast('正在读取文件...', 'info');
+      App.showToast(I18n.t('data.importing'), 'info');
       
       const text = await file.text();
       const data = JSON.parse(text);
 
       // 验证文件格式
       if (!data.version || !Array.isArray(data.accounts)) {
-        throw new Error('无效的备份文件格式');
+        throw new Error(I18n.t('data.invalidFile'));
       }
 
       // 确认操作
       const accountCount = data.accounts.length;
       const recordCount = data.usageRecords?.length || 0;
-      if (!confirm(`将导入 ${accountCount} 个账户和 ${recordCount} 条使用记录。\n当前所有数据将被覆盖，确定继续吗？`)) {
+      if (!confirm(I18n.t('data.importConfirm', accountCount, recordCount))) {
         return;
       }
 
-      App.showToast('正在导入数据...', 'info');
+      App.showToast(I18n.t('data.importingData'), 'info');
       await DB.importAll(data);
 
-      App.showToast('数据导入成功！', 'success');
+      App.showToast(I18n.t('data.importSuccess'), 'success');
       
       // 刷新界面
       await App.refreshAll();
     } catch (error) {
-      App.showToast(`导入失败: ${error.message}`, 'error');
+      App.showToast(I18n.t('data.importFailed', error.message), 'error');
     }
   },
 
   async clearAllData() {
     const accounts = await DB.getAccounts();
     if (accounts.length === 0) {
-      App.showToast('没有可清空的数据', 'warning');
+      App.showToast(I18n.t('data.noData'), 'warning');
       return;
     }
 
-    if (!confirm('⚠️ 警告：此操作将删除所有账户和使用记录，且不可恢复！\n\n建议先导出备份再继续。\n\n确定要清空所有数据吗？')) {
+    if (!confirm(I18n.t('data.clearWarning1'))) {
       return;
     }
 
-    if (!confirm('再次确认：真的要清空所有数据吗？此操作无法撤销！')) {
+    if (!confirm(I18n.t('data.clearWarning2'))) {
       return;
     }
 
     try {
       await DB.clearAll();
-      App.showToast('所有数据已清空', 'success');
+      App.showToast(I18n.t('data.cleared'), 'success');
       await App.refreshAll();
     } catch (error) {
-      App.showToast(`清空失败: ${error.message}`, 'error');
+      App.showToast(I18n.t('data.clearFailed', error.message), 'error');
     }
   }
 };

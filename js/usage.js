@@ -36,7 +36,7 @@ const UsageTracker = {
     }
 
     await DB.setSetting('lastSync', new Date().toISOString());
-    App.showToast('所有账户数据已刷新', 'success');
+    App.showToast(I18n.t('data.allRefreshed'), 'success');
   },
 
   async fetchAccountData(account, days = 30) {
@@ -66,28 +66,44 @@ const UsageTracker = {
 
   async fetchSingleAccount(account, days = 30) {
     try {
-      App.showToast(`正在获取 ${account.name} 数据...`, 'info');
+      App.showToast(I18n.t('usage.fetching', account.name), 'info');
       const records = await this.fetchAccountData(account, days);
       await DB.setSetting('lastSync', new Date().toISOString());
       
       const isMock = records.length > 0 && records.every(r => r.isMock);
       if (isMock) {
-        App.showToast(`${account.name} 已使用模拟数据（需部署 Worker 代理获取真实数据）`, 'warning');
+        App.showToast(I18n.t('usage.mockData', account.name), 'warning');
       } else {
-        App.showToast(`${account.name} 数据更新成功`, 'success');
+        App.showToast(I18n.t('usage.updated', account.name), 'success');
       }
       return records;
     } catch (error) {
-      App.showToast(`获取数据失败: ${error.message}`, 'error');
+      App.showToast(I18n.t('usage.fetchFailed', error.message), 'error');
       throw error;
     }
+  },
+
+  // 按日期合并使用记录：真实记录优先，缺失的日期才用 Mock 兜底，
+  // 避免真实/模拟数据混合时直接丢弃全部 Mock 历史导致趋势图出现空洞
+  _mergeEffective(records) {
+    const byDate = new Map();
+    for (const r of records) {
+      if (!r.isMock && !byDate.has(r.date)) byDate.set(r.date, r);
+    }
+    for (const r of records) {
+      if (r.isMock && !byDate.has(r.date)) byDate.set(r.date, r);
+    }
+    return [...byDate.values()].sort((a, b) => parseLocalDate(a.date) - parseLocalDate(b.date));
   },
 
   // 获取汇总统计
   async getSummary(accountId) {
     const records = await DB.getUsageRecords(accountId, 30);
-    
-    if (records.length === 0) {
+
+    // 按日期合并：优先采用真实记录，缺失的日期才用 Mock 兜底，避免真实/模拟混合时丢失历史
+    const effective = this._mergeEffective(records);
+
+    if (effective.length === 0) {
       return {
         todayRequests: 0,
         monthRequests: 0,
@@ -98,19 +114,19 @@ const UsageTracker = {
       };
     }
 
-    const today = new Date().toISOString().split('T')[0];
-    const todayRecord = records.find(r => r.date === today);
-    
+    const today = getLocalDateString();
+    const todayRecord = effective.find(r => r.date === today);
+
     // 本月累计
     const now = new Date();
     const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-    const monthRecords = records.filter(r => new Date(r.date) >= firstDay);
+    const monthRecords = effective.filter(r => parseLocalDate(r.date) >= firstDay);
 
     return {
       todayRequests: todayRecord?.requests || 0,
       monthRequests: monthRecords.reduce((sum, r) => sum + r.requests, 0),
       todayWorkers: todayRecord?.workersInvocations || 0,
-      bandwidth: records.reduce((sum, r) => sum + r.bandwidth, 0),
+      bandwidth: monthRecords.reduce((sum, r) => sum + r.bandwidth, 0),
       todayProgress: todayRecord ? Math.min(100, (todayRecord.requests / 100000) * 100) : 0,
       workersProgress: todayRecord ? Math.min(100, (todayRecord.workersInvocations / 100000) * 100) : 0
     };
@@ -119,14 +135,15 @@ const UsageTracker = {
   // 获取最近 N 天的趋势数据
   async getTrendData(accountId, days = 30) {
     const records = await DB.getUsageRecords(accountId, days);
-    
+    const effective = this._mergeEffective(records);
+
     return {
-      labels: records.map(r => this.formatDate(r.date)),
-      requests: records.map(r => r.requests),
-      workers: records.map(r => r.workersInvocations),
-      bandwidth: records.map(r => r.bandwidth),
-      pageViews: records.map(r => r.pageViews),
-      uniqueVisitors: records.map(r => r.uniqueVisitors)
+      labels: effective.map(r => this.formatDate(r.date)),
+      requests: effective.map(r => r.requests),
+      workers: effective.map(r => r.workersInvocations),
+      bandwidth: effective.map(r => r.bandwidth),
+      pageViews: effective.map(r => r.pageViews),
+      uniqueVisitors: effective.map(r => r.uniqueVisitors)
     };
   },
 
@@ -135,7 +152,7 @@ const UsageTracker = {
     const accounts = await DB.getAccounts();
     const daysMap = { today: 1, week: 7, month: 30 };
     const days = daysMap[range] || 30;
-    
+
     const datasets = [];
     const labels = [];
 
@@ -144,7 +161,7 @@ const UsageTracker = {
     for (let i = days - 1; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
-      labels.push(this.formatDate(d.toISOString().split('T')[0]));
+      labels.push(this.formatDate(d));
     }
 
     const colors = ['#f38020', '#3b82f6', '#10b981', '#8b5cf6', '#ef4444', '#f59e0b'];
@@ -152,9 +169,10 @@ const UsageTracker = {
     for (let i = 0; i < accounts.length; i++) {
       const account = accounts[i];
       const records = await DB.getUsageRecords(account.id, days);
-      
+      const effective = this._mergeEffective(records);
+
       const dataPoints = labels.map(label => {
-        const record = records.find(r => this.formatDate(r.date) === label);
+        const record = effective.find(r => this.formatDate(r.date) === label);
         const value = record ? record[metric === 'workers' ? 'workersInvocations' : metric] : 0;
         return value || 0;
       });
@@ -182,10 +200,11 @@ const UsageTracker = {
     
     for (const account of accounts) {
       const records = await DB.getUsageRecords(account.id, days);
-      const totalRequests = records.reduce((sum, r) => sum + r.requests, 0);
-      const totalWorkers = records.reduce((sum, r) => sum + r.workersInvocations, 0);
-      const totalBandwidth = records.reduce((sum, r) => sum + r.bandwidth, 0);
-      const activeDays = records.filter(r => r.requests > 0).length;
+      const effective = this._mergeEffective(records);
+      const totalRequests = effective.reduce((sum, r) => sum + r.requests, 0);
+      const totalWorkers = effective.reduce((sum, r) => sum + r.workersInvocations, 0);
+      const totalBandwidth = effective.reduce((sum, r) => sum + r.bandwidth, 0);
+      const activeDays = effective.filter(r => r.requests > 0).length;
 
       tableData.push({
         id: account.id,
@@ -200,8 +219,8 @@ const UsageTracker = {
     return tableData;
   },
 
-  formatDate(dateStr) {
-    const date = new Date(dateStr);
+  formatDate(date) {
+    if (typeof date === 'string') date = parseLocalDate(date);
     return `${date.getMonth() + 1}/${date.getDate()}`;
   }
 };

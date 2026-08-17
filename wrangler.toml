@@ -12,7 +12,5 @@ public_output = "."
 [vars]
   NODE_VERSION = "2024"
 
-# 路由配置
-routes = [
-  { pattern = "your-domain.pages.dev/*" }
-]
+# 说明：Pages 项目的 *.pages.dev 域名由平台自动分配，无需（也不支持）在此配置 routes。
+# 如需绑定自定义域名，请在 Cloudflare Pages 控制台中设置，而非使用 Workers 的 routes 配置。
