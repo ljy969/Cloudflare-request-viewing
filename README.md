@@ -1,6 +1,6 @@
 # Cloudflare 使用情况追踪器
 
-[英文](./README.en.md)
+中文 [English](./README.en.md)
 
 
 ---
