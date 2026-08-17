@@ -1033,21 +1033,4 @@ I18n.toggle()                    // 切语言
 
 ---
 
-## 十八、最近更新
 
-本节记录近期的代码与文档维护，主要为代码质量、去重与文档准确性改进，不改变数据模型与既有存储结构：
-
-- **修正文档错误**：`usage_records` 仅建立 `accountId` 与 `date` 两个索引，此前文档误写了不存在的复合索引 `[accountId,date]`。
-- **清理死代码**：移除从未被调用的 `DB.getUsageRecordCount()`、`DB.deleteSetting()` 与 `App.escapeHtml()`。
-- **合并重复实现**：`formatBytes` 现统一复用 `CF_API.formatBytes`；`App.escapeHtml` 的重复实现已删除（`AccountManager.escapeHtml` 保留）。
-- **查询窗口更精确**：`DB.getUsageRecords(days)` 的日期下界由 `today - days` 调整为 `today - days + 1`，使“最近 N 天”精确包含今天在内的 N 天，与采集窗口保持一致。
-- **数字格式化跟随语言**：`CF_API.formatNumber` 现在根据当前界面语言选择 `zh-CN` / `en-US` 区域，切换语言后数字格式同步更新。
-
-## 十九、代码修复
-
-- 修复了 `js/db.js` 中 `deleteAccount` 和 `setActiveAccount` 函数中的 IndexedDB 事务在中间 await 导致可能提前提交的问题。
-- 修复了 `js/charts.js` 中趋势图提示框对请求数和 Worker 调用数使用 `formatBytes` 的错误，改为使用 `formatNumber`.
-
----
-
-> 🇺🇸 **Want English?** 打开 [README.en.md](./README.en.md) 查看完整英文文档。
