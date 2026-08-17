@@ -1,42 +1,42 @@
 # Cloudflare Usage Tracker
 
-[中文](./README.md) English
+中文 [English](./README.en.md)
 
 ---
 
 ## Table of Contents
 
-- [1. Introduction](#introduction)
-- [2. Features](#features)
-- [3. Tech Stack](#tech-stack)
-- [4. Project Structure](#project-structure)
-- [5. How It Works](#how-it-works)
-- [6. Quick Start (5 Steps)](#quick-start-5-steps)
+- [1. Introduction](#1-introduction)
+- [2. Features](#2-features)
+- [3. Tech Stack](#3-tech-stack)
+- [4. Project Structure](#4-project-structure)
+- [5. How It Works](#5-how-it-works)
+- [6. Quick Start (5 Steps)](#6-quick-start-5-steps)
   - [Step 1: Get Your Cloudflare Account ID](#step-1-get-your-cloudflare-account-id)
   - [Step 2: Create a Cloudflare API Token](#step-2-create-a-cloudflare-api-token)
   - [Step 3: Deploy the Worker Proxy (Solve CORS)](#step-3-deploy-the-worker-proxy-solve-cors)
   - [Step 4: Add an Account in the App](#step-4-add-an-account-in-the-app)
   - [Step 5: Fetch Usage Data](#step-5-fetch-usage-data)
-- [7. Run Locally](#run-locally)
-- [8. Deployment Guide](#deployment-guide)
+- [7. Run Locally](#7-run-locally)
+- [8. Deployment Guide](#8-deployment-guide)
   - [8.1 Deploy the Pages Frontend](#81-deploy-the-pages-frontend)
   - [8.2 Deploy the Worker API Proxy](#82-deploy-the-worker-api-proxy)
   - [8.3 Custom Domain](#83-custom-domain)
-- [9. User Guide (Detailed Steps)](#user-guide-detailed-steps)
+- [9. User Guide (Detailed Steps)](#9-user-guide-detailed-steps)
   - [9.1 Dashboard](#91-dashboard)
   - [9.2 Account Management](#92-account-management)
   - [9.3 Multi-Account Comparison](#93-multi-account-comparison)
   - [9.4 Data Management](#94-data-management)
   - [9.5 Settings](#95-settings)
   - [9.6 UI Language and Theme Switching](#96-ui-language-and-theme-switching)
-- [10. Data Collection Details](#data-collection-details)
-- [11. Data Storage Solution](#data-storage-solution)
-- [12. API Authentication Explained](#api-authentication-explained)
-- [13. Configuration Reference](#configuration-reference)
-- [14. FAQ](#faq)
-- [15. Development Guide](#development-guide)
-- [16. License](#license)
-- [17. Support](#support)
+- [10. Data Collection Details](#10-data-collection-details)
+- [11. Data Storage Solution](#11-data-storage-solution)
+- [12. API Authentication Explained](#12-api-authentication-explained)
+- [13. Configuration Reference](#13-configuration-reference)
+- [14. FAQ](#14-faq)
+- [15. Development Guide](#15-development-guide)
+- [16. License](#16-license)
+- [17. Support](#17-support)
 
 ---
 
